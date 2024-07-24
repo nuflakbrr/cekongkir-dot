@@ -194,14 +194,19 @@ const ContainerHome: FC = () => {
   // }, [fetchCityB, form.watch('province_b')]);
 
   const onSubmit = async (dataSubmit: FormValues) => {
-    setIsLoading(true); // Set loading state to true
+    setIsLoading(true);
     try {
-      const { data } = await axios.post('user', dataSubmit);
+      const { data } = await axios.post('cost', dataSubmit, {
+        headers: {
+          'Content-Type': 'application/json',
+          key: process.env.NEXT_PUBLIC_API_KEY,
+        },
+      });
       toast({ description: data.message, variant: 'success' });
     } catch (error) {
       toast({ description: 'Something went wrong.', variant: 'destructive' });
     } finally {
-      setIsLoading(false); // Ensure loading state is reset
+      setIsLoading(false);
     }
   };
 

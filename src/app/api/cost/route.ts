@@ -2,11 +2,30 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   try {
-    const { searchParams } = new URL(req.url);
-    const provinceId = searchParams.get('province');
+    const body = await req.json();
+
+    const { origin, destination, weight, courier } = body;
+
+    console.log(origin);
+    console.log(destination);
+    console.log(weight);
+    console.log(courier);
 
     const fetchData = await fetch(
-      `${process.env.NEXT_PUBLIC_API_RAJAONGKIR}city?key=${process.env.NEXT_PUBLIC_API_KEY}&province=${provinceId}`,
+      `${process.env.NEXT_PUBLIC_API_RAJAONGKIR}cost?key=${process.env.NEXT_PUBLIC_API_KEY}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          key: process.env.NEXT_PUBLIC_API_KEY,
+        },
+        body: JSON.stringify({
+          origin: origin,
+          destination: destination,
+          weight: weight,
+          courier: courier,
+        }),
+      },
     );
     const data = await fetchData.json();
 
@@ -15,7 +34,7 @@ export async function POST(req: Request) {
       { status: 200 },
     );
   } catch (error) {
-    console.log('[CITY_GET]', error);
+    console.log('[COST_POST]', error);
     return NextResponse.json(
       { success: 0, message: 'Internal Server Error' },
       { status: 500 },
