@@ -171,7 +171,7 @@ const ContainerHome: FC = () => {
     });
     return () => subscription.unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchCityA, fetchCityB, form.watch]);
+  }, [fetchCityA, fetchCityB, fetchingCityA, fetchingCityB, form.watch]);
 
   // useEffect(() => {
   //   const subscription = form.watch((value, { province_a, string }) => {
