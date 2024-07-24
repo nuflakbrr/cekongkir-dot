@@ -53,14 +53,12 @@ const ContainerHome: FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Set Province & City From (A)
-  // const [valProvinceA, setValProvinceA] = useState<string | any>('');
-  // const [valCityA, setValCityA] = useState<string | any>('');
   const [dataCityA, setDataCityA] = useState<City[]>([]);
+  const [fetchingCityA, setFetchingCityA] = useState<number>(0);
 
   // Set Province & City To (B)
-  // const [valProvinceB, setValProvinceB] = useState<string | any>('');
-  // const [valCityB, setValCityB] = useState<string | any>('');
   const [dataCityB, setDataCityB] = useState<City[]>([]);
+  const [fetchingCityB, setFetchingCityB] = useState<number>(0);
 
   const { toast } = useToast();
   const axios = useAxios();
@@ -104,31 +102,20 @@ const ContainerHome: FC = () => {
     try {
       const { data } = await axios.get('province');
       setDataProvince(data.data.rajaongkir.results);
-
-      if (data.data.rajaongkir.status.code === 200) {
-        toast({
-          description: 'Sistem OK',
-          variant: 'success',
-        });
-      } else {
-        toast({
-          description: 'Oops! Terjadi Kesalahan!',
-          variant: 'destructive',
-        });
-      }
     } catch (error) {
       console.error('Error fetching provinces:', error);
     }
-  }, [axios, toast]);
+  }, [axios]);
 
   const fetchCityA = useCallback(async () => {
-    // if (form.watch('province_a') !== '') return;
+    // if (form.watch('province_a') !== '' && fetchingCityA !== 1) return;
 
     try {
       const { data } = await axios.get(
         `city?province=${form.watch('province_a')}`,
       );
       setDataCityA(data.data.rajaongkir.results);
+      setFetchingCityA(1);
     } catch (error) {
       console.error('Error fetching cities:', error);
     }
@@ -136,13 +123,14 @@ const ContainerHome: FC = () => {
   }, [axios, form.watch('province_a')]);
 
   const fetchCityB = useCallback(async () => {
-    // if (form.watch('province_b') !== '') return;
+    // if (form.watch('province_b') !== '' && fetchingCityB !== 1) return;
 
     try {
       const { data } = await axios.get(
         `city?province=${form.watch('province_b')}`,
       );
       setDataCityB(data.data.rajaongkir.results);
+      setFetchingCityB(1);
     } catch (error) {
       console.error('Error fetching cities:', error);
     }
@@ -169,24 +157,41 @@ const ContainerHome: FC = () => {
   }));
 
   useEffect(() => {
-    const subscription = form.watch((value) => {
-      if (value.province_a !== '') {
+    const subscription = form.watch((value, { name, type }) => {
+      // if (form.watch('province_a') !== '' && fetchingCityA !== 1) return;
+      // if (form.watch('province_b') !== '' && fetchingCityB !== 1) return;
+
+      if (value.province_a !== '' && fetchingCityA !== 1) {
         fetchCityA();
       }
-    });
-    return () => subscription.unsubscribe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchCityA, form.watch]);
 
-  useEffect(() => {
-    const subscription = form.watch((value) => {
-      if (value.province_b !== '') {
+      if (value.province_b !== '' && fetchingCityB !== 1) {
         fetchCityB();
       }
     });
     return () => subscription.unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchCityB, form.watch]);
+  }, [fetchCityA, fetchCityB, form.watch]);
+
+  // useEffect(() => {
+  //   const subscription = form.watch((value, { province_a, string }) => {
+  //     if (value !== '') {
+  //       fetchCityA();
+  //     }
+  //   });
+  //   return () => subscription.unsubscribe();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [fetchCityA, form.watch('province_a')]);
+
+  // useEffect(() => {
+  //   const subscription = form.watch((value, { province_b, string }) => {
+  //     if (value !== '') {
+  //       fetchCityB();
+  //     }
+  //   });
+  //   return () => subscription.unsubscribe();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [fetchCityB, form.watch('province_b')]);
 
   const onSubmit = async (dataSubmit: FormValues) => {
     setIsLoading(true); // Set loading state to true
