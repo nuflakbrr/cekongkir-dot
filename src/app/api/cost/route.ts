@@ -6,19 +6,16 @@ export async function POST(req: Request) {
 
     const { origin, destination, weight, courier } = body;
 
-    console.log(origin);
-    console.log(destination);
-    console.log(weight);
-    console.log(courier);
+    const headers = new Headers({
+      'Content-Type': 'application/json',
+      key: process.env.NEXT_PUBLIC_API_KEY ?? '',
+    });
 
     const fetchData = await fetch(
       `${process.env.NEXT_PUBLIC_API_RAJAONGKIR}cost?key=${process.env.NEXT_PUBLIC_API_KEY}`,
       {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          key: process.env.NEXT_PUBLIC_API_KEY,
-        },
+        headers: headers,
         body: JSON.stringify({
           origin: origin,
           destination: destination,

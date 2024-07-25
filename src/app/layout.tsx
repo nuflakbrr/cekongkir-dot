@@ -5,7 +5,6 @@ import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import ThemeProvider from '@/providers/ThemeProvider';
 import ToastProvider from '@/providers/ToastProvider';
-import ScrollToTop from '@/components/Common/ScrollToTop';
 import ThemeToggle from '@/components/Common/ThemeToggle';
 import Navbar from '@/components/Mixins/Navbar/Navbar';
 
@@ -31,11 +30,9 @@ export default function RootLayout({
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <ToastProvider />
 
-            <ScrollToTop />
-
             <Navbar />
 
-            <main className="w-full flex items-center justify-center min-h-screen">
+            <main className="w-full flex items-center justify-center">
               {children}
               <div className="absolute bottom-5 right-5">
                 <ThemeToggle />
