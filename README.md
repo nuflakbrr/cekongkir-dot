@@ -1,4 +1,4 @@
-## Nextjs Typescript Template (Include Tailwindcss, Customize ESLint Rules)
+## CekOngkir (Next.js Typescript, Tailwindcss, Customize ESLint Rules)
 
 Ini adalah proyek [Next.js](https://nextjs.org/) di-bootstrap dengan [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
@@ -6,26 +6,28 @@ Ini adalah proyek [Next.js](https://nextjs.org/) di-bootstrap dengan [`create-ne
 
 - [Next.js (Typescript)](https://nextjs.org/)
 - [Tailwindcss](https://tailwindcss.com/)
-- [NextAuth.js](https://next-auth.js.org/getting-started/introduction/)
+- [Shadcn UI](https://ui.shadcn.com/)
 - [Axios](https://axios-http.com/docs/intro/)
-- [SWR](https://swr.vercel.app/)
-- [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction/)
 
 ## Fitur
 
 Fitur yang terdapat pada templat proyek ini adalah:
 
-- SEO dasar.
-- Proyek Arsitektur.
 - Authentikasi.
-- State Management.
+- Proyek Arsitektur.
+- State Management (React Context).
 - Kustomisasi `React Hooks`.
-- Beberapa fungsi kustom yang sering [Saya](https://github.com/nuflakbrr) pakai.
-- Implementasi `Types` dan `Interface`.
 
-### SEO Dasar
+### Authentikasi
 
-Anda dapat mengkustomisasi `SEO Dasar` pada templat ini dengan memodifikasi dokumen `/src/data/siteMetadata.ts`. Anda juga bisa melihat bagaimana Saya membuat `SEO Dasar` pada templat ini melalui dokumen `/src/components/SEO.tsx`.
+Pada proyek ini sudah implementasi `protected routes` sederhana menggunakan `React Context`. Untuk bisa mengakses halaman `Beranda`, Anda harus masuk ke halaman `Login` terlebih dahulu. Lalu masukkan kredensial sebagai berikut:
+
+```
+username: user
+password: password
+```
+
+Setelah itu, klik button login dan Anda akan segera bisa menikmati fitur lainnya pada website ini.
 
 ### Proyek Arsitektur
 
@@ -33,62 +35,52 @@ Terdapat beberapa poin penting terkait bagaimana menjalankan proyek arsitektur y
 
 ```
 /
-├── public/
-├── src/
-│   └── app/
-│   │   └── about/
-│   │   └── api/
-│   │   │   └── auth/
-│   │   │       └── [...nextauth].ts
-│   │   └── auth/
-│   │   └── contact/
-│   │   └── favicon.ico
-│   │   └── globals.css
-│   │   └── layout.tsx
-│   │   └── page.tsx
-│   └── components/
-│   │   └── Common/
-│   │   └── Containers/
-│   │   │   └── About/
-│   │   │   └── Auth/
-│   │   │   └── Contact/
-│   │   │   └── Home/
-│   │   └── Mixins/
-│   │   │   └── Navbar/
-│   │   │   └── Footer.tsx
-│   │   └── README.md
-│   └── data/
-│   └── hooks/
-│   └── layouts/
-│   └── lib/
-│   └── store/
-│   └── utils/
-│       └── interfaces/
-│       │   └── auth.ts
-│       │   └── todolist.ts
-│       └── types/
-│           └── auth.ts
-│           └── todolist.ts
-└── .env.example
-└── .eslintrc.json
-└── .gitignore
-└── next-env.d.ts
-└── next.config.mjs
-└── package-lock.json
-└── package.json
-└── postcss.config.js
-└── README.md
-└── tailwind.config.ts
-└── tsconfig.json
+├─public/
+└─src/
+│ ├─app/
+│ │ ├─(auth)
+│ │ │   └─(routes)
+│ │ │       └─login
+│ │ └─api/
+│ │   ├─city
+│ │   ├─cost
+│ │   └─province
+│ ├─components/
+│ │ ├─Common/
+│ │ ├─Containers/
+│ │ │ ├─Auth/
+│ │ │ ├─ErrorPage/
+│ │ │ └─Home/
+│ │ │   └─components/
+│ │ ├─Mixins/
+│ │ │ └─Navbar/
+│ │ └─ui/
+│ ├─context/
+│ ├─data/
+│ ├─hooks/
+│ ├─interfaces/
+│ ├─lib/
+│ ├─middlewares/
+│ └─providers/
+└─.env.example
+└─.eslintrc.json
+└─.gitignore
+└─next-env.d.ts
+└─next.config.mjs
+└─package.json
+└─postcss.config.js
+└─README.md
+└─tailwind.config.ts
+└─tsconfig.json
 ```
 
 #### Folder Common
 
-Folder `Common` terletak pada `/src/components/`. Lalu didalamnya berisikan apa saja? Folder `Common` Berisikan komponen-komponen kecil, seperti: tombol, dropdown, dll.
+Folder `Common` terletak pada `/src/components/`. Lalu didalamnya berisikan apa saja? Folder `Common` Berisikan komponen-komponen universal, seperti: tombol, dropdown, dll.
 
 #### Folder Mixins
 
-Folder `Mixins` terletak pada `/src/components/`. Lalu didalamnya berisikan apa saja? Folder `Mixins` Berisikan komponen-komponen yang merupakan gabungan dari komponen-komponen kecil dari folder `Common`. Seperti: navbar (yang berisi beberapa hal umum seperti tombol, dropdown, dll).
+Folder `Mixins` terletak pada `/src/components/`. Lalu didalamnya berisikan apa saja? Folder `Mixins` Berisikan komponen-komponen yang merupakan gabungan dari komponen-komponen universal dari folder `Common`. Seperti: navbar (yang berisi beberapa hal umum seperti tombol, dropdown, dll).
 
 #### Folder Containers
 
@@ -96,52 +88,40 @@ Folder `Containers` terletak pada `/src/components/`. Lalu didalamnya berisikan 
 
 Jika pada 1 container memiliki beberapa section, maka Anda harus memisahkan dan menaruhnya di dalam folder `components` namun masih tetap dalam 1 folder `Containers`. Seperti: `/src/components/Containers/Home/components`.
 
-### Authentikasi
-
-Pada templat proyek ini sudah menggunakan authentikasi menggunakan [NextAuth](https://next-auth.js.org/getting-started/introduction/). Sudah terdapat sebuah contoh authentikasi menggunakan `GitHub`, jika user sudah melakukan authentikasi maka user tidak bisa mengakses halaman `login` dan `register` kembali. Anda juga dapat memproteksi halaman `root` atau `/` Anda dengan menghapus komentar pada file `/src/app/page.ts`.
-
-### State Management
-
-Pada templat proyek ini sudah menggunakan implementasi `State Management` menggunakan [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction). Agar penggunaan tetap optimal, pada saat Anda ingin membuat `state` baru, perlu di ingat bahwa Anda harus meng-definisikan `Interface` dan `Type` terlebih dahulu pada folder `/src/utils`. Kemudian Anda dapat meng-definisikan apa saja yang Anda butuhkan untuk `state` tersebut pada folder `/src/store`.
-
-### Kustomisasi React Hooks
-
-Anda dapat menggunakan, serta menambahkan kustom `React Hooks` Anda sendiri pada folder `/src/hooks` yang telah disediakan. terdapat sebuah contoh kustomisasi `React Hooks` untuk `Data Fetching` menggunakan [SWR](https://swr.vercel.app) dan [Axios](https://axios-http.com/docs/intro).
-
 ## Mulai Sekarang
 
 Pertama, buka terminal lalu eksekusi perintah berikut:
 
 ```bash
-npx degit nuflakbrr/next-template#master <nama_proyek>
-```
-
-atau, jika Anda ingin menggunakan versi `Typescript & Payload CMS`, eksekusi perintah berikut:
-
-```bash
-npx degit nuflakbrr/next-template#typescript-payloadcms-version <nama_proyek>
-```
-
-atau jika Anda ingin menggunakan versi `Javascipt`, eksekusi perintah berikut:
-
-```bash
-npx degit nuflakbrr/next-template#javascript-version <nama_proyek>
+npx degit nuflakbrr/cekongkir-dot <nama_proyek>
+# atau
+git clone https://github.com/nuflakbrr/cekongkir-dot <nama_proyek>
 ```
 
 Kedua, install `depedencies` didalam proyek yang sudah Anda klona:
 
 ```bash
 npm install
-# or
+# atau
 yarn install
+# atau
+pnpm install
 ```
 
-Ketiga, jalankan server pengembangan:
+Ketiga, salin environtment:
+
+```bash
+cp .env.example .env
+```
+
+Keempat, jalankan server pengembangan:
 
 ```bash
 npm run dev
-# or
+# atau
 yarn dev
+# atau
+pnpm run dev
 ```
 
 Keempat, buka [http://localhost:3000](http://localhost:3000) pada browser Anda dan lihat hasilnya.
