@@ -5,7 +5,6 @@ import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import ThemeProvider from '@/providers/ThemeProvider';
 import ToastProvider from '@/providers/ToastProvider';
-import ThemeToggle from '@/components/Common/ThemeToggle';
 import Navbar from '@/components/Mixins/Navbar/Navbar';
 
 const fontSans = FontSans({
@@ -27,16 +26,13 @@ export default function RootLayout({
     <AuthProvider>
       <html lang="en">
         <body className={fontSans.className}>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ThemeProvider attribute="class" defaultTheme="light">
             <ToastProvider />
 
             <Navbar />
 
             <main className="w-full flex items-center justify-center">
               {children}
-              <div className="absolute bottom-5 right-5">
-                <ThemeToggle />
-              </div>
             </main>
           </ThemeProvider>
         </body>
