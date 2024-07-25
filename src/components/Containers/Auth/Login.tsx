@@ -32,10 +32,10 @@ const ContainerLogin: FC = () => {
 
   const formSchema = z.object({
     username: z.string().min(2, {
-      message: 'Username must be at least 2 characters.',
+      message: 'Username minimal memiliki 2 karakter.',
     }),
     password: z.string().min(8, {
-      message: 'Password must be at least 8 characters.',
+      message: 'Password minimal memiliki 8 karakter.',
     }),
   });
 
