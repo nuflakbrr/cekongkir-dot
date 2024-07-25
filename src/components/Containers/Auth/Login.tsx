@@ -26,10 +26,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 const ContainerLogin: FC = () => {
+  // Define hooks
   const { toast } = useToast();
   const { setUser } = useAuth();
   const router = useRouter();
 
+  // Define form schema
   const formSchema = z.object({
     username: z.string().min(2, {
       message: 'Username minimal memiliki 2 karakter.',
@@ -39,8 +41,10 @@ const ContainerLogin: FC = () => {
     }),
   });
 
+  // Define type form values
   type LoginFormValues = z.infer<typeof formSchema>;
 
+  // Define default value form
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,8 +53,10 @@ const ContainerLogin: FC = () => {
     },
   });
 
+  // Validating state form
   const { isSubmitting, isValid } = form.formState;
 
+  // Handle submit form
   const onSubmit = async (dataSubmit: LoginFormValues) => {
     try {
       if (
@@ -74,7 +80,10 @@ const ContainerLogin: FC = () => {
         });
       }
     } catch (error) {
-      toast({ description: 'Something went wrong.', variant: 'destructive' });
+      toast({
+        description: 'Oops! Terjadi kesalahan.',
+        variant: 'destructive',
+      });
     }
   };
 
